@@ -5,6 +5,7 @@ services:
     image: a2s_tracker
     restart: always
     container_name: a2s_tracker
+    tty: true
     environment:
      SERVERADDR: "endpoint.dlg"
      WEBHOOKURL: "webhookurl"
