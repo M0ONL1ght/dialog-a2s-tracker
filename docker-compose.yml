@@ -1,10 +1,10 @@
 version: '3'
 services:
-  valvebot:
-    build: valvebot/
-    image: valvebot
+  a2s_tracker:
+    build: a2s_tracker/
+    image: a2s_tracker
     restart: always
-    container_name: valvebot
+    container_name: a2s_tracker
     environment:
       SERVERADDR: "endpoint.dlg"
       WEBHOOKURL: "webhookurl"
