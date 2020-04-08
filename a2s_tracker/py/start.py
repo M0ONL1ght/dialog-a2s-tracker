@@ -8,11 +8,6 @@ import time
 import socket
 import calendar
 
-os.environ['SERVERADDR'] = 'game.transmit.im:27015'
-os.environ['WEBHOOKURL'] = 'https://ee.dlg.im/v1/webhooks/973a80c08edc987f46e3baaeab90e6879d5ada7eb04e32c816a15020f72b575b'
-os.environ['CUSTOMMSG'] = 'Пароль сервера: 7722\nГолосовать за карту - в Esc меню, в левой панели.'
-os.environ['MSGFREQ'] = '30'
-
 def parseAddress(address):
     newAddress = ['']*2
     newAddress[0] = address.split(':')[0]
