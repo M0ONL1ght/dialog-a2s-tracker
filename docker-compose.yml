@@ -6,6 +6,6 @@ services:
     restart: always
     container_name: a2s_tracker
     environment:
-      SERVERADDR: "endpoint.dlg"
-      WEBHOOKURL: "webhookurl"
-      CUSTOMMSG: "custommsg"
+     SERVERADDR: "endpoint.dlg"
+     WEBHOOKURL: "webhookurl"
+     CUSTOMMSG: "custommsg"

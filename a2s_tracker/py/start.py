@@ -54,7 +54,6 @@ def createReport(queryResult,queryPlayersResult):
             j += 1
         message = message + ' ' + str(queryPlayersResult[i][1]) + fragsSpaces + ' | ' + queryPlayersResult[i][0]
         i += 1
-    message = message.replace('\n','\\n')
     return message
 
 def mainLoop(address):
