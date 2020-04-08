@@ -6,7 +6,12 @@ import api.dialog as dialog
 import common.common as common
 import time
 import socket
+import calendar
 
+os.environ['SERVERADDR'] = 'game.transmit.im:27015'
+os.environ['WEBHOOKURL'] = 'https://ee.dlg.im/v1/webhooks/973a80c08edc987f46e3baaeab90e6879d5ada7eb04e32c816a15020f72b575b'
+os.environ['CUSTOMMSG'] = 'Пароль сервера: 7722\nГолосовать за карту - в Esc меню, в левой панели.'
+os.environ['MSGFREQ'] = '30'
 
 def parseAddress(address):
     newAddress = ['']*2
@@ -52,31 +57,39 @@ def createReport(queryResult,queryPlayersResult):
         while j < fragsSpaceCount:
             fragsSpaces = fragsSpaces + ' '
             j += 1
-        message = message + ' ' + str(queryPlayersResult[i][1]) + fragsSpaces + ' | ' + queryPlayersResult[i][0]
+        message = message + ' ' + str(queryPlayersResult[i][1]) + fragsSpaces + ' | ' + queryPlayersResult[i][0] + '\n'
         i += 1
     return message
 
 def mainLoop(address):
     queryResult = queryServer(address)
+    serverActive = False
+    serverActiveTimer = calendar.timegm(time.gmtime())
     while True:
         try:
-            if (queryServer(address)[1] > 0 and queryServer(address)[0] != queryResult[0]) or (queryServer(address)[1] != queryResult[1] and queryResult[1] == 0):
+            if (queryResult[1] > 0) and (serverActiveTimer <= calendar.timegm(time.gmtime())):
+                serverActive = True
+                serverActiveTimer = calendar.timegm(time.gmtime()) + int(os.environ['MSGFREQ'])
                 queryResult = queryServer(address)
-                queryPlayersResult = queryPlayers(address)
-                dialog.sendMessage(createReport(queryResult,queryPlayersResult))
+                dialog.sendMessage(createReport(queryResult,queryPlayers(address)))
+                common.conMsg('debug','gaming on action')
+            elif serverActive == True and queryResult[1] == 0:
+                serverActive = False
+                serverActiveTimer = calendar.timegm(time.gmtime())
+                common.conMsg('debug','ending game')
             else:
                 queryResult = queryServer(address)
+            common.conMsg('debug','now: ' + str(calendar.timegm(time.gmtime())) + ' timer: ' + str(serverActiveTimer) + ' active: ' + str(serverActive))
         except socket.timeout:
             online = False
             while online == False:
                 try:
                     queryResult = queryServer(address)
                     online = True
-                    #common.conMsg('bot','Server ' + os.environ['SERVERADDR'] + ' is Online: ' + str(queryResult))
                 except socket.timeout:
                     common.conMsg('bot','Lost connection to server, trying to reconnect...')
                     time.sleep(15)
-        time.sleep(25)
+        time.sleep(10)
 
 if __name__ == '__main__':
     address = parseAddress(os.environ['SERVERADDR'])

@@ -9,3 +9,4 @@ services:
      SERVERADDR: "endpoint.dlg"
      WEBHOOKURL: "webhookurl"
      CUSTOMMSG: "custommsg"
+     MSGFREQ: "90"
