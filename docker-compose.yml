@@ -1,0 +1,11 @@
+version: '3'
+services:
+  valvebot:
+    build: valvebot/
+    image: valvebot
+    restart: always
+    container_name: valvebot
+    environment:
+      SERVERADDR: "endpoint.dlg"
+      WEBHOOKURL: "webhookurl"
+      CUSTOMMSG: "custommsg"
