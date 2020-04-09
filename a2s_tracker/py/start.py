@@ -63,6 +63,8 @@ def mainLoop(address):
     while True:
         try:
             if (queryResult[1] > 0) and (serverActiveTimer <= calendar.timegm(time.gmtime())):
+                if serverActive == False:
+                    time.sleep (30)
                 serverActive = True
                 serverActiveTimer = calendar.timegm(time.gmtime()) + int(os.environ['MSGFREQ'])
                 queryResult = queryServer(address)
